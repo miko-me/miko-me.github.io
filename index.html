@@ -2,184 +2,144 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Miko | 個人開発者</title>
-<meta name="description" content="趣味でiPhoneアプリを作っている個人開発者Mikoのホームページ。推し活手帳アプリ「推しテチョ」を作っています。ねむいけど、つくってる。">
-<meta property="og:title" content="Miko | 個人開発者">
-<meta property="og:description" content="ねむいけど、つくってる。推し活手帳アプリ「推しテチョ」の開発者です。">
-<meta property="og:image" content="https://miko-me.github.io/assets/miko.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>推しテチョ - 推し活のお金・思い出・予定を、ぜんぶ1冊に。</title>
+<meta name="description" content="推し活のお金・思い出・予定をぜんぶ1冊にまとめる、推し活手帳アプリ「推しテチョ」。記録するたび祭壇に灯りがともる。iPhoneで配信中。">
+
+<meta property="og:title" content="推しテチョ - 推し活手帳アプリ">
+<meta property="og:description" content="推し活のお金・思い出・予定を、ぜんぶ1冊に。">
+<meta property="og:type" content="website">
 <meta property="og:url" content="https://miko-me.github.io/">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="assets/miko.png">
+<meta property="og:image" content="https://miko-me.github.io/assets/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/oshitecho.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+
 <style>
-  :root {
-    --paper: #F6F0E5;
-    --ink: #4A4553;
-    --sub: #8B8494;
-    --blue: #93AECB;
-    --blue-deep: #7B96B5;
-    --blush: #F2C4CE;
-    --line: rgba(123, 150, 181, 0.35);
+  :root{
+    --bg:#FBF7F2; --card:#FFFFFF; --ink:#463C34; --muted:#9C8E82;
+    --accent:#DB6A97; --accent-soft:#FBE6EE; --line:#EFE7DE;
+    --radius:20px; --shadow:0 10px 30px rgba(120,90,80,.08);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.9;
-    overflow-x: hidden;
-  }
-  /* 水彩のにじみ */
-  .wash { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; }
-  .b1 { top: -120px; left: -80px;  width: 420px; height: 380px; background: #C5D6E8; }
-  .b2 { top: 30%;  right: -140px; width: 460px; height: 420px; background: #F4D9DF; opacity: .45; }
-  .b3 { bottom: -160px; left: 10%; width: 520px; height: 400px; background: #E8E0C9; opacity: .5; }
-
-  main { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 72px 24px 64px; }
-
-  /* ---------- プロフィール ---------- */
-  .me { text-align: center; }
-  .icon-wrap { position: relative; width: 168px; margin: 0 auto; }
-  .icon-wrap::before { /* にじみ座布団 */
-    content: ""; position: absolute; inset: -18px;
-    background: radial-gradient(closest-side, rgba(171, 194, 219, .5), transparent);
-    border-radius: 50%;
-  }
-  .icon-wrap img {
-    position: relative; width: 100%; border-radius: 50%; display: block;
-    border: 5px solid #FFFDF8;
-    box-shadow: 0 10px 30px rgba(123, 150, 181, .3);
-  }
-  .zzz {
-    position: absolute; top: -6px; right: -30px;
-    font-weight: 900; color: var(--blue-deep); opacity: .8;
-    font-size: 22px; letter-spacing: 2px;
-    animation: floatz 3.5s ease-in-out infinite;
-  }
-  @keyframes floatz {
-    0%, 100% { transform: translateY(0) rotate(8deg); opacity: .45; }
-    50% { transform: translateY(-9px) rotate(8deg); opacity: .9; }
-  }
-  @media (prefers-reduced-motion: reduce) { .zzz { animation: none; } }
-
-  h1 { margin-top: 22px; font-size: 34px; font-weight: 900; letter-spacing: .08em; }
-  .handle { font-size: 14px; color: var(--sub); }
-  .handle a { color: var(--blue-deep); text-decoration: none; }
-  .tagline {
-    display: inline-block; margin-top: 14px;
-    font-size: 15px; font-weight: 700; color: var(--blue-deep);
-    background: rgba(171, 194, 219, .22);
-    padding: 6px 20px; border-radius: 999px; letter-spacing: .12em;
-  }
-  .bio { margin-top: 18px; font-size: 15px; }
-
-  /* ---------- 見出し ---------- */
-  h2 {
-    margin: 56px 0 20px; text-align: center;
-    font-size: 17px; font-weight: 900; letter-spacing: .2em; color: var(--blue-deep);
-  }
-  h2::before, h2::after { content: "・"; color: var(--blush); }
-
-  /* ---------- 作品カード ---------- */
-  .work {
-    display: flex; gap: 18px; align-items: center;
-    background: #FFFDF8;
-    border: 1.5px solid var(--line);
-    border-radius: 18px;
-    padding: 20px 22px;
-    text-decoration: none; color: inherit;
-    box-shadow: 0 6px 20px rgba(123, 150, 181, .12);
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  a.work:hover, a.work:focus-visible { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(123, 150, 181, .22); }
-  .work + .work { margin-top: 16px; }
-  .w-icon {
-    flex: none; width: 64px; height: 64px; border-radius: 16px;
-    display: grid; place-items: center; font-size: 30px;
-    background: rgba(171, 194, 219, .25);
-    overflow: hidden;
-  }
-  .w-icon img { width: 100%; height: 100%; display: block; }
-  .w-body h3 { font-size: 17px; font-weight: 900; }
-  .w-body p { font-size: 13px; color: var(--sub); margin-top: 2px; }
-  .w-status {
-    display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700;
-    color: #A8763E; background: #F6E3C5; padding: 2px 12px; border-radius: 999px;
-  }
-  .work.tbd { border-style: dashed; background: transparent; box-shadow: none; }
-  .work.tbd .w-icon { background: rgba(171, 194, 219, .25); box-shadow: none; }
-
-  /* ---------- リンク ---------- */
-  .links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
-  .links a {
-    display: inline-block; text-decoration: none;
-    font-size: 14px; font-weight: 700; color: var(--blue-deep);
-    background: #FFFDF8; border: 1.5px solid var(--line);
-    padding: 10px 26px; border-radius: 999px;
-    transition: transform .2s ease;
-  }
-  .links a:hover, .links a:focus-visible { transform: translateY(-2px); background: rgba(171, 194, 219, .18); }
-  a:focus-visible { outline: 2px solid var(--blue-deep); outline-offset: 3px; }
-
-  footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--sub); }
-  footer .moon { color: var(--blue-deep); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Hiragino Sans','Yu Gothic UI','Yu Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  .hero{padding:64px 0 40px;text-align:center}
+  .app-icon{width:96px;height:96px;border-radius:24px;object-fit:cover;box-shadow:var(--shadow);margin:0 auto 22px;display:block;}
+  .app-name{font-size:clamp(30px,6vw,46px);font-weight:900;letter-spacing:.02em}
+  .app-sub{margin-top:6px;font-size:15px;color:var(--muted)}
+  .tagline{margin:22px auto 0;max-width:620px;font-size:clamp(18px,3.6vw,23px);font-weight:700;line-height:1.7;}
+  .tagline .hl{color:var(--accent)}
+  .cta{display:inline-flex;align-items:center;gap:8px;margin-top:28px;padding:15px 30px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 8px 20px rgba(219,106,151,.35);transition:transform .15s ease, box-shadow .15s ease;}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(219,106,151,.45)}
+  .cta small{font-weight:600;opacity:.9}
+  .cta-note{margin-top:10px;font-size:13px;color:var(--muted)}
+  .sec{padding:44px 0}
+  .sec-title{text-align:center;font-size:14px;font-weight:900;letter-spacing:.12em;color:var(--accent);margin-bottom:28px}
+  .sec-title::before,.sec-title::after{content:"·";margin:0 10px;color:var(--accent)}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow);}
+  .feat .ico{width:52px;height:52px;border-radius:15px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;}
+  .feat h3{font-size:17px;margin-bottom:6px}
+  .feat p{font-size:14px;color:var(--muted);line-height:1.7}
+  .shots{display:flex;gap:18px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory}
+  .shot{flex:0 0 auto;width:230px;border-radius:24px;scroll-snap-align:center;border:1px solid var(--line);box-shadow:var(--shadow);display:block;}
+  .shots-note{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
+  .maker{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;display:flex;gap:20px;align-items:center;max-width:640px;margin:0 auto;}
+  .maker img{width:64px;height:64px;border-radius:50%;flex:0 0 auto;object-fit:cover;background:#e9e2f0}
+  .maker h3{font-size:16px;margin-bottom:4px}
+  .maker p{font-size:14px;color:var(--muted)}
+  .maker .links{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+  .maker .links a{font-size:13px;font-weight:700;text-decoration:none;padding:7px 15px;border-radius:999px;border:1px solid var(--line);color:var(--ink);transition:background .15s ease;}
+  .maker .links a:hover{background:var(--accent-soft)}
+  .final{text-align:center;padding:20px 0 8px}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:34px 0 40px}
+  footer .legal{margin-bottom:10px}
+  footer .legal a{color:var(--muted);margin:0 8px}
+  @media(max-width:680px){.features{grid-template-columns:1fr}.maker{flex-direction:column;text-align:center}.maker .links{justify-content:center}}
 </style>
 </head>
 <body>
 
-<div class="wash" aria-hidden="true">
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
-</div>
+<header class="hero">
+  <div class="wrap">
+    <img class="app-icon" src="assets/oshitecho.png" alt="推しテチョのアプリアイコン">
+    <h1 class="app-name">推しテチョ</h1>
+    <div class="app-sub">推し活手帳アプリ / iPhone</div>
+    <p class="tagline">推し活の<span class="hl">お金・思い出・予定</span>を、<br>ぜんぶ1冊に。</p>
+    <a class="cta" href="https://apps.apple.com/jp/app/id6787580305" target="_blank" rel="noopener">App Storeでダウンロード <small>（無料）</small></a>
+    <div class="cta-note">🎉 App Storeで配信中</div>
+  </div>
+</header>
 
-<main>
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-title">できること</div>
+    <div class="features">
+      <div class="feat">
+        <div class="ico">🕯️</div>
+        <h3>きょう ─ 推しの祭壇</h3>
+        <p>推しの写真に後光リング。「推して◯日」「今月の愛」「現場まであと◯日」がひと目でわかって、記録するたび灯りがともる。</p>
+      </div>
+      <div class="feat">
+        <div class="ico">🎫</div>
+        <h3>これまで ─ 記録とシェア</h3>
+        <p>金額も写真も感想も、3タップでさっと記録。チケット半券風のカードが並ぶ年表に。9種類のテーマでカード化してSNSへシェアも。</p>
+      </div>
+      <div class="feat">
+        <div class="ico">📅</div>
+        <h3>これから ─ 予定と推し貯金</h3>
+        <p>現場・発売日・締切のカウントダウンと前日リマインド。「ツアーまでに3万円」の推し貯金で、次の現場にそなえよう。</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section class="me">
-    <div class="icon-wrap">
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-title">画面イメージ</div>
+    <div class="shots">
+      <img class="shot" src="assets/shots/01_altar.jpg" alt="きょう画面：推しの祭壇。推して483日、今月の愛、現場までのカウントダウン">
+      <img class="shot" src="assets/shots/02_memories.jpg" alt="これまで画面：チケット風カードが並ぶ推し活の記録">
+      <img class="shot" src="assets/shots/03_sharecard.jpg" alt="シェアカード：記録を9種類のテーマでカード化してSNSへ">
+      <img class="shot" src="assets/shots/04_future.jpg" alt="これから画面：予定のカウントダウンと推し貯金">
+    </div>
+    <p class="shots-note">← 横にスワイプできます</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-title">作った人</div>
+    <div class="maker">
       <img src="assets/miko.png" alt="Mikoのアイコン。猫耳フードをかぶった眠そうな子">
-      <span class="zzz" aria-hidden="true">Z z .</span>
-    </div>
-    <h1>Miko</h1>
-    <p class="handle"><a href="https://x.com/miko_me_kod">@miko_me_kod</a></p>
-    <p class="tagline">ねむいけど、つくってる。</p>
-    <p class="bio">趣味でiPhoneアプリを作っている個人開発者です。<br>
-    SwiftUIと、推し活と、お昼寝が好き。<br>
-    開発の裏側やつまずいたことをゆるく発信しています。</p>
-  </section>
-
-  <h2>つくったもの</h2>
-
-  <a class="work" href="https://miko-me.github.io/oshitecho-support/">
-    <div class="w-icon"><img src="assets/oshitecho.png" alt="推しテチョのアプリアイコン"></div>
-    <div class="w-body">
-      <h3>推しテチョ - 推し活手帳</h3>
-      <p>推し活のお金・思い出・予定を、ぜんぶ1冊に。</p>
-      <span class="w-status">App Store で配信中 🎉</span>
-    </div>
-  </a>
-
-  <div class="work tbd">
-    <div class="w-icon">💤</div>
-    <div class="w-body">
-      <h3>つぎのアプリ</h3>
-      <p>構想中…（起きたら考えます）</p>
+      <div>
+        <h3>Miko <span style="font-weight:600;color:var(--muted);font-size:13px">@miko_me_kod</span></h3>
+        <p>AIを使ってiPhoneアプリを作っている個人開発者。推し活当事者として「自分が欲しい推し活手帳」を作りました。開発の裏側やAI活用もゆるく発信中。</p>
+        <div class="links">
+          <a href="https://x.com/miko_me_kod" target="_blank" rel="noopener">X（Twitter）</a>
+          <a href="https://github.com/miko-me" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:miko.me.kod@gmail.com">メール</a>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <h2>リンク</h2>
-  <div class="links">
-    <a href="https://x.com/miko_me_kod">X（Twitter）</a>
-    <a href="https://github.com/miko-me">GitHub</a>
-    <a href="mailto:miko.me.kod@gmail.com">メール</a>
+<section class="final">
+  <div class="wrap">
+    <a class="cta" href="https://apps.apple.com/jp/app/id6787580305" target="_blank" rel="noopener">推しテチョを使ってみる <small>（App Store）</small></a>
   </div>
+</section>
 
-  <footer>
-    <p><span class="moon">🌙</span> © 2026 Miko-me</p>
-  </footer>
+<footer>
+  <div class="legal">
+    <a href="https://miko-me.github.io/oshitecho-support/">サポート</a>
+    <a href="https://miko-me.github.io/oshitecho-support/privacy.html">プライバシーポリシー</a>
+  </div>
+  🌙 © 2026 Miko-me
+</footer>
 
-</main>
 </body>
 </html>
